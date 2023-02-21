@@ -5,44 +5,34 @@
  * @argv: arguments given by user
  * Return: 0 Success
  */
-int main(int argc, char *argv[])
+int main(int ac, char **av)
 {
+	char *lineptr = NULL;
 	char *prompt = "cisfun$ ";
-	char *cmd;
 	size_t n = 0;
 	ssize_t nchars_read;
-	char **executable_cmd;
+	char *tokenized_command;
 
 	while (1)
 	{
-		/* interactive and non interactive mode */
-		if ((isatty(STDIN_FILENO)))
+		if(isatty(STDIN_FILENO))
 			printf("%s", prompt);
 
-		nchars_read = getline(&cmd, &n, stdin);
+		nchars_read = getline(&lineptr, &n, stdin);
 
-		if (feof(stdin))
+		/* check if getline failed or reache EOF or ctr D */
+		if (nchars_read == -1)
 		{
-			free(cmd);
-			return (0);
-		}
-		else
-		{
+			/* test EOF indicator */
+			if (feof(stdin))
+			{
+				free(lineptr);
+				return (0);
+			}
 			return (-1);
 		}
-		executablr_cmd = get_command(cmd);
-		execute(executable_cmd);
+		tokenized_command = tokenize(lineptr);
+		exec_command(tokenized_command);
 	}
 	return (0);
-}
-
-/**
- * get_command - tokenization of args
- * @cmd: string to be tokenized
- * Return: tokens
- */
-char **get_command(char *cmd)
-{
-	char *token;
-	const char *delim = " \n";
 }
