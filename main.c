@@ -1,8 +1,8 @@
 #include "shell.h"
 /**
  * main - Entry point
- * @argc: argument count
- * @argv: arguments given by user
+ * @ac: argument count
+ * @av: arguments given by user
  * Return: 0 Success
  */
 int main(int ac, char **av)
@@ -15,7 +15,7 @@ int main(int ac, char **av)
 
 	while (1)
 	{
-		if(isatty(STDIN_FILENO))
+		if (isatty(STDIN_FILENO))
 			printf("%s", prompt);
 
 		nchars_read = getline(&lineptr, &n, stdin);
