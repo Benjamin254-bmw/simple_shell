@@ -20,7 +20,7 @@ char **tokenize(char *lineptr)
 	token = strtok(lineptr, delim);
 
 	/* Determine how many tokens are there */
-	for (i = 0; token != NULL, i++)
+	for (i = 0; token != NULL; i++)
 	{
 		user_cmd[i] = token;
 		token = strtok(NULL, delim);
