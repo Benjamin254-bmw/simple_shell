@@ -14,7 +14,7 @@ char **tokenize(char *lineptr)
 	if (user_cmd == NULL)
 	{
 		perror("Error");
-		return (-1);
+		return (0);
 	}
 	/* split/tokenize the lineptr string into arr of words */
 	token = strtok(lineptr, delim);

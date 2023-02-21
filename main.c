@@ -16,7 +16,7 @@ int main(int ac, char **av)
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "\n", 1);
+			printf("%s", prompt);
 
 		nchars_read = getline(&lineptr, &n, stdin);
 
