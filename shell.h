@@ -13,7 +13,7 @@
 #include <dirent.h>
 
 int _putchar(char c);
-char *getline_command(void);
+char **tokenize(char *lineptr);
 char *get_path(char **env);
 void getenv(char **env);
 int exec_command(char **args);
