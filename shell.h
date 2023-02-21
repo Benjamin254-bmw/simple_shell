@@ -12,7 +12,10 @@
 #include <signal.h>
 #include <dirent.h>
 
-char *get_command(char *cmd);
+int _putchar(char c);
+char *getline_command(void);
+char *get_path(char **env);
+void getenv(char **env);
 int exec_command(char **args);
 
 #endif
