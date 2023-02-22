@@ -17,5 +17,9 @@ char **tokenize(char *lineptr);
 char *get_path(char **env);
 void getenv(char **env);
 int exec_command(char **args);
-
+int _strlen(char *s);
+char *_strcat(char *dest, char *src);
+int _strcmp(char *str1, char *str2);
+char *_strcpy(char *dest, char *src);
+size_t _strncmp(char *s1, char *s2, size_t n);
 #endif
