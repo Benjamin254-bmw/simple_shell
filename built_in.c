@@ -1,6 +1,6 @@
 #include "shell.h"
 /**
- * exit - exits  shell
+ * _exit - exits  shell
  * @args: arr of strs
  * Return: 0
  */
