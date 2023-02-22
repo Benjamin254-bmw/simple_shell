@@ -15,7 +15,7 @@
 int _putchar(char c);
 char **tokenize(char *lineptr);
 char *get_path(char **env);
-void getenv(char **env);
+void _getenv(char **env);
 int exec_command(char **args);
 int _strlen(char *s);
 char *_strcat(char *dest, char *src);
