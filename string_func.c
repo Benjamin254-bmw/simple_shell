@@ -1,38 +1,43 @@
 #include "shell.h"
 /**
- * _strcat - concatenates two strings
- * @dest: dest string
- * @src: source str
- * Return: 0 on success
+ * _strdup - duplicates str
+ * @s: to be duplicated
+ * Return: ptr to duplicate str
  */
-char *_strcat(char *dest, char *src)
+char *_strdup(char *s)
 {
-	int i, j = 0;
+	char *ptr;
+	int i, len;
 
-	for (i = 0; dest[i] != '\0'; i++)
-	{
-	}
-	for (j = 0; src[j] != '\0'; j++)
-	{
-		dest[i] = src[j];
-		i++
-	}
-	dest[i] = '\0';
-	return (dest);
+	if (s == NULL)
+		return (NULL);
+
+	len = _strlen(s);
+
+	ptr = malloc(sizeof(char) * (len + 1));
+
+	if (!ptr)
+		return (NULL);
+
+	for (i = 0; *s != '\0'; s++, i++)
+		ptr[i] = s[0];
+	ptr[i++] = '\0';
+	return (ptr);
 }
 /**
  * _strcmp - compares two strings
  * @str1: first str
  * @str2: sec str
- * Return: multiple strs
+ * Return: difference btwn strs
  */
 int _strcmp(char *str1, char str2)
 {
 	int val, i = 0;
 
-	while (str1[i] != 0 && str2[i] != 0 && str1[i] == str2[i])
+	while (*(str1 + i) == *(str2 + i) && *(str1 + i) != '\0')
 		i++;
-	val = str1[i] - str2[i];
+
+	val = (*(str1 + i) - *(str2 + i));
 	return (val);
 }
 /**
@@ -49,41 +54,38 @@ int _strlen(char *s)
 	return (i);
 }
 /**
- * _strncmp - func to campare two strs
+ * _strncmp - func to campare two strs upto n bytes
  * @s1: first
  * @s2: sec
- * @n: No of chars
- * Return: difference
+ * @n: numb of bytes
+ * Return: difference btwn s1 and s2
  */
-size_t _strncmp(char *s1, char *s2, size_t n)
+int _strncmp(char *s1, char *s2, int n)
 {
-	size_t i, j;
+	int i;
 
-	for (j = 0; s1[j] != '\0' && j < n; j++)
+	for (i = 0; s1[i] && s2[i] && i < n; i++)
 	{
-		i = s1[j] - s2[j];
-
-		if (i != 0)
-		{
-			return (i);
-		}
+		if (s1[i] != s2[i])
+			return (s1[i] - s2[i]);
 	}
 	return (0);
 }
 /**
- * _strcpy - compy str from src to dest
- * @dest: dest copy
- * @src: src str
- * Return: char pointer o dest
+ * _strchr - locate char in str
+ * @s: str to be checked
+ * @c: char to be locateed
+ * Return: ptr to 1st occurence of char or NULL if char not found
  */
-char *_strcpy(char *dest, char *src)
+char *_strchr(char *s, char c)
 {
-	int i = 0;
-
-	for (i = 0; src[i] != '\0'; i++)
+	while (*s)
 	{
-		dest[i] = src[i];
+		if (*s == c)
+			return (s);
+		s++;
 	}
-	dest[i + 1] = 0;
-	return (dest);
+	if (!c)
+		return (s);
+	return (NULL);
 }

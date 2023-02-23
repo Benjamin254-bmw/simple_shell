@@ -1,31 +1,49 @@
 #include "shell.h"
 /**
- * tokenize - tokenizes a string before execution
- * @lineptr: string to be tokenized
- * Return: tokens, arr of strings
+ * tokenize - splits string into tokens
+ * @line: to be tokenized
+ * Return: arr of strs
  */
-char **tokenize(char *lineptr)
+char **tokenize(char *line)
 {
-	char **user_cmd = malloc(sizeof(char *) * 100);
-	int i = 0;
-	char *token;
-	char delim[] = " \t\r\n";
+	char *buf = NULL, *bufp = NULL, *token = NULL, *delim = " :\t\t\n";
+	char **tokens = NULL;
+	int toksize = 1;
+	size_t i = 0, flag = 0;
 
-	if (user_cmd == NULL)
+	buf = _strdup(line);
+
+	if (!buf)
+		return (NULL);
+	bufp = buff;
+
+	while (*bufp)
 	{
-		perror("Error");
-		return (0);
+		if (_strchr(delim, *bufp) == NULL && flag == 0)
+		{
+			toksize++;
+			flag = 1;
+		}
+		else if (_strchr(delim, *bufp) == NULL && flag == 1)
+			flag = 0;
+		bufp++;
 	}
-	/* split/tokenize the lineptr string into arr of words */
-	token = strtok(lineptr, delim);
+	tokens = malloc(sizeof(char *) * (toksize + 1));
+	token = strtok(buf, delim);
 
-	/* Determine how many tokens are there */
-	for (i = 0; token != NULL; i++)
+	while (token)
 	{
-		user_cmd[i] = token;
+		tokens[i] = _strdup(token);
+
+		if (tokens[i] == NULL)
+		{
+			free(tokens);
+			return (NULL);
+		}
 		token = strtok(NULL, delim);
+		i++;
 	}
-	/* end of string */
-	user_cmd[i] = NULL;
-	return (user_cmd);
+	tokens[i] = '\0';
+	free(buf);
+	return (tokens);
 }

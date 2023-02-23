@@ -13,13 +13,28 @@
 #include <dirent.h>
 
 int _putchar(char c);
-char **tokenize(char *lineptr);
-char *get_path(char **env);
+char **tokenize(char *line);
+char *find_path(void);
+char *test_path(char **path, char *command);
 void _getenv(char **env);
-int exec_command(char **args);
+void handle_signal(int m);
+void exec_command(char *cmd, char **arg);
 int _strlen(char *s);
 char *_strcat(char *dest, char *src);
 int _strcmp(char *str1, char *str2);
 char *_strcpy(char *dest, char *src);
 size_t _strncmp(char *s1, char *s2, size_t n);
+
+struct info
+{
+	int final_exit;
+	int ln_count;
+} info;
+
+struct flags
+{
+	bool interactive;
+} flags;
+
 #endif
+

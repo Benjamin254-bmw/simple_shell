@@ -1,38 +1,56 @@
 #include "shell.h"
 /**
- * main - Entry point
- * @ac: argument count
- * @av: arguments given by user
- * Return: 0 Success
- */
-int main(int ac, char **av)
+* main - carries out the read, execute then print output loop
+* @ac: argument count
+* @av: argument vector
+* @envp: environment vector
+* Return: 0
+*/
+int main(int ac, char **av, char *envp[])
 {
-	char *lineptr = NULL;
-	char *prompt = "cisfun$ ";
-	size_t n = 0;
-	ssize_t nchars_read;
-	char *tokenized_command;
+	char *line = NULL, *pathcommand = NULL, *path = NULL;
+	size_t bufsize = 0;
+	ssize_t linesize = 0;
+	char **command = NULL, **paths = NULL;
+	(void)envp, (void)av;
+
+	if (ac < 1)
+		return (-1);
+	signal(SIGINT, handle_signal);
 
 	while (1)
 	{
-		if (isatty(STDIN_FILENO))
-			printf("%s", prompt);
+		free_buffers(command);
+		free_buffers(paths);
+		free(pathcommand);
+		prompt_user();
+		linesize = getline(&line, &bufsize, stdin);
 
-		nchars_read = getline(&lineptr, &n, stdin);
+		if (linesize < 0)
+			break;
+		info.ln_count++;
 
-		/* check if getline failed or reache EOF or ctr D */
-		if (nchars_read == -1)
-		{
-			/* test EOF indicator */
-			if (feof(stdin))
-			{
-				free(lineptr);
-				return (0);
-			}
-			return (-1);
-		}
-		tokenized_command = tokenize(lineptr);
-		exec_command(tokenized_command);
+		if (line[linesize - 1] == '\n')
+			line[linesize - 1] = '\0';
+		command = tokenize(line);
+
+		if (command == NULL || *command == NULL || **command == '\0')
+			continue;
+
+		if (checker(command, line))
+			continue;
+
+		path = find_path();
+		paths = tokenize(path);
+		pathcommand = test_path(paths, command[0]);
+
+		if (!pathcommand)
+			perror(av[0]);
+		else
+			exec_command(pathcommand, command);
 	}
+	if (linesize < 0 && flags.interactive)
+		write(STDERR_FILENO, "\n", 1);
+	free(line);
 	return (0);
 }
